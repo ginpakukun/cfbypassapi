@@ -4,6 +4,7 @@ import os
 import urllib
 import tempfile
 from urllib.parse import urlparse
+import requests,time
 
 from CloudflareBypasser import CloudflareBypasser
 from DrissionPage import ChromiumPage, ChromiumOptions
@@ -218,6 +219,13 @@ class ResponseModel(BaseModel):
     message: str = None
     solution: Dict[str, Union[str, List[Dict[str, str]]]] = None
 
+def req_keep():
+    time.sleep(10)
+    while True:
+        requests.get("http://localhost:8000")
+        time.sleep(60)
+
+
 @app.post("/v1")
 async def v1(payload: RequestModel):
     if payload.cmd != "request.get":
@@ -249,5 +257,5 @@ if __name__ == "__main__":
     else:
         log = True
     import uvicorn
-
+    threading.Thread(target=req_keep).start()
     uvicorn.run(app, host="0.0.0.0", port=8000)
