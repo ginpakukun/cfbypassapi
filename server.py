@@ -4,7 +4,7 @@ import os
 import urllib
 import tempfile
 from urllib.parse import urlparse
-import requests,time
+import requests,time,threading
 
 from CloudflareBypasser import CloudflareBypasser
 from DrissionPage import ChromiumPage, ChromiumOptions
